@@ -82,6 +82,8 @@ class DiscountApp:
 
         self._build_styles()
         self._build_ui()
+        # Repeat after Tk finishes the first layout pass; this prevents a brief
+        # small-window start on some Windows configurations.
         self.root.after(80, self._maximize_window)
 
     def _build_styles(self) -> None:
@@ -271,6 +273,7 @@ class DiscountApp:
             else:
                 self.root.attributes("-zoomed", True)
         except tk.TclError:
+            # Safe fallback for window managers that do not expose a zoomed state.
             width = self.root.winfo_screenwidth()
             height = self.root.winfo_screenheight()
             self.root.geometry(f"{width}x{height}+0+0")
@@ -325,7 +328,7 @@ class DiscountApp:
     def _worker(self, source: Path) -> None:
         try:
             result = run_pipeline(input_path=source, output_path=DEFAULT_OUTPUT_XLSX)
-        except Exception as exc:
+        except Exception as exc:  # UI boundary: convert technical failures into human messages.
             LOGGER.exception("GUI pipeline failed")
             self._result_queue.put(("error", exc))
             return
