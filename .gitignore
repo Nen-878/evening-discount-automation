@@ -1,0 +1,9 @@
+__pycache__/
+.pytest_cache/
+*.pyc
+.venv/
+venv/
+logs/*
+!logs/.gitkeep
+output/Итоги_Вечерней_Уценки_20_00.xlsx
+output/Лист_для_стикеров_20_00.xlsx
