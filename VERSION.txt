@@ -1,0 +1,3 @@
+Evening Discount Automation
+Version: 1.0-final
+Final QA: 26 automated tests + manual Windows UX verification
